@@ -19,7 +19,6 @@ while (True):
         "targets": []
     }]
     for instance in exo.compute.list_instances(exoZoneId):
-        print(instance.instance_pool.id)
         print("{name} {zone} {ip}".format(
             name=instance.name,
             zone=instance.zone.name,
@@ -31,7 +30,7 @@ while (True):
                     "{ip}:{port}".format(ip=instance.ipv4_address, port=exoTargetPort)
                 )
 
-    with open("config.json", "w") as file:
+    with open("srv/service-discovery/config.json", "w+") as file:
         json.dump(ipData, file)
 
     time.sleep(10)

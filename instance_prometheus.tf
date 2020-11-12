@@ -5,7 +5,7 @@ resource "exoscale_compute" "prometheus" {
   template_id  = data.exoscale_compute_template.ubuntu.id
   size         = "micro"
   disk_size    = 10
-  key_pair     = ""
+  key_pair     = exoscale_ssh_keypair.admin.name
   state        = "Running"
 
   security_group_ids = [exoscale_security_group.sg.id]

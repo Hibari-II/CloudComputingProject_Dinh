@@ -11,7 +11,7 @@ resource "exoscale_instance_pool" "service" {
 	service_offering = "micro"
 	disk_size = 10
 	description = "Instance Pool for my webapplication"
-	key_pair = ""
+	key_pair = exoscale_ssh_keypair.admin.name
 
 	security_group_ids = [exoscale_security_group.sg.id]
 

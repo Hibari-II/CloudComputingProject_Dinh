@@ -40,7 +40,6 @@ scrape_configs:
 """ >> /srv/prometheus.yml
 
 mkdir /srv/service-discovery
-touch /srv/service-discovery/config.json
 
 # Region Run Prometheus
 docker run \
@@ -54,7 +53,7 @@ docker run \
 # Region Run Service Discovery
 docker run \
     -d \
-    -v /srv/service-discovery/config.json:/config.json \
+    -v /srv/service-discovery:/srv/service-discovery \
     -e EXOSCALE_KEY=${exoscale_key} \
     -e EXOSCALE_SECRET=${exoscale_secret} \
     -e EXOSCALE_ZONE=${exoscale_zone} \
