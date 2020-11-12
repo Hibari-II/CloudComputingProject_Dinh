@@ -3,8 +3,8 @@ import exoscale
 import json
 import time
 
-exoApiKey = environ.get("EXOSCALE_API_KEY")
-exoApiSecret = environ.get("EXOSCALE_API_SECRET")
+exoApiKey = environ.get("EXOSCALE_KEY")
+exoApiSecret = environ.get("EXOSCALE_SECRET")
 exoZone = environ.get("EXOSCALE_ZONE")
 exoInstancePoolId = environ.get("EXOSCALE_INSTANCEPOOL_ID")
 exoTargetPort = environ.get("TARGET_PORT")
@@ -13,7 +13,7 @@ exoTargetPort = environ.get("TARGET_PORT")
 exo = exoscale.Exoscale(api_key=exoApiKey, api_secret=exoApiSecret)
 exoZoneId = exo.compute.get_zone(exoZone) # Getting the Zone ID for getting the list of instances later
 
-while (True):  
+while (True):
     # Init empty list for adding instance ip address utilizedb by prometheus
     ipData = [{
         "targets": []
@@ -33,5 +33,5 @@ while (True):
 
     with open("config.json", "w") as file:
         json.dump(ipData, file)
-    
+
     time.sleep(10)
