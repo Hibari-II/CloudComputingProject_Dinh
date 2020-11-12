@@ -15,5 +15,5 @@ resource "exoscale_instance_pool" "service" {
 
 	security_group_ids = [exoscale_security_group.sg.id]
 
-	user_data = file("UserData/loadgenerator.sh")
+	user_data = file("userdata/loadgenerator.sh")
 }
