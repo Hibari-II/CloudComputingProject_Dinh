@@ -3,6 +3,11 @@ import exoscale
 import json
 import time
 
+"""
+ Snake, do you see C#?
+ You have to gather intel about Metal Gear Exoscale...
+ Snake, do you hear me? Snake? Snakeeee? Sneeeeeeeeeeeek!!!!!
+"""
 exoApiKey = environ.get("EXOSCALE_KEY")
 exoApiSecret = environ.get("EXOSCALE_SECRET")
 exoZone = environ.get("EXOSCALE_ZONE")
@@ -14,7 +19,7 @@ exo = exoscale.Exoscale(api_key=exoApiKey, api_secret=exoApiSecret)
 exoZoneId = exo.compute.get_zone(exoZone) # Getting the Zone ID for getting the list of instances later
 
 while (True):
-    # Init empty list for adding instance ip address utilizedb by prometheus
+    # Init empty list for adding instance ip address utilized by prometheus
     ipData = [{
         "targets": []
     }]
