@@ -2,24 +2,30 @@ from os import environ
 import exoscale
 import json
 import time
+import signal
 
 """
  Snake, do you see C#?
  You have to gather intel about Metal Gear Exoscale...
- Snake, do you hear me? Snake? Snakeeee? Sneeeeeeeeeeeek!!!!!
 """
 exoApiKey = environ.get("EXOSCALE_KEY")
 exoApiSecret = environ.get("EXOSCALE_SECRET")
 exoZone = environ.get("EXOSCALE_ZONE")
 exoInstancePoolId = environ.get("EXOSCALE_INSTANCEPOOL_ID")
 exoTargetPort = environ.get("TARGET_PORT")
+sleepRate = 10
+
+# Lambda Signal Handler
+signalHandler = lambda sNum, sFrame : exit(0)
+signal.signal(signal.SIGTERM, signalHandler)
+signal.signal(signal.SIGINT, signalHandler)
 
 # Instance for the Exoscale API
 exo = exoscale.Exoscale(api_key=exoApiKey, api_secret=exoApiSecret)
 exoZoneId = exo.compute.get_zone(exoZone) # Getting the Zone ID for getting the list of instances later
 
 while (True):
-    # Init empty list for adding instance ip address utilized by prometheus
+    # Init empty list for adding instance ip address utilizedb by prometheus
     ipData = [{
         "targets": []
     }]
@@ -38,4 +44,4 @@ while (True):
     with open("srv/service-discovery/config.json", "w+") as file:
         json.dump(ipData, file)
 
-    time.sleep(10)
+    time.sleep(sleepRate)
