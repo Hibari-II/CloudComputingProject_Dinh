@@ -162,7 +162,7 @@ echo '''
             "query": {
               "params": [
                 "A",
-                "1m",
+                "5m",
                 "now"
               ]
             },
@@ -305,7 +305,7 @@ echo '''
             "query": {
               "params": [
                 "A",
-                "1m",
+                "5m",
                 "now"
               ]
             },
@@ -440,8 +440,8 @@ echo '''
     "list": []
   },
   "time": {
-    "from": "2021-01-12T17:03:17.512Z",
-    "to": "2021-01-12T17:27:08.457Z"
+    "from": "now-5m",
+    "to": "now"
   },
   "timepicker": {},
   "timezone": "",
