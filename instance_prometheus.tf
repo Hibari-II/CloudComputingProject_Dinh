@@ -16,6 +16,7 @@ resource "exoscale_compute" "prometheus" {
 	exoscale_zone = var.zone,
 	exoscale_zone_id = 0,
 	exoscale_instancepool_id = exoscale_instance_pool.service.id,
-	target_port = 9100
+	target_port = 9100,
+  listen_port = 8090
   })
 }

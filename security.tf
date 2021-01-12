@@ -39,3 +39,20 @@ resource "exoscale_security_group_rule" "nodeExporter" {
     end_port = 9100
 }
 
+resource "exoscale_security_group_rule" "autoscaler" {
+    security_group_id = exoscale_security_group.sg.id
+    type = "INGRESS"
+    protocol = "TCP"
+    cidr = "0.0.0.0/0"
+    start_port = 8090
+    end_port = 8090
+}
+
+resource "exoscale_security_group_rule" "grafana" {
+    security_group_id = exoscale_security_group.sg.id
+    type = "INGRESS"
+    protocol = "TCP"
+    cidr = "0.0.0.0/0"
+    start_port = 3000
+    end_port = 3000
+}
