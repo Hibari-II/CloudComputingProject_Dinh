@@ -1,0 +1,10 @@
+apiVersion: 1
+
+providers:
+- name: 'AVG CPU Performance'
+  orgId: 1
+  folder: ''
+  type: file
+  updateIntervalSeconds: 10
+  options:
+    path: /etc/grafana/dashboards
