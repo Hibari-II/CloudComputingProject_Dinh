@@ -45,8 +45,12 @@ resource "exoscale_compute" "monitoring" {
     listen_port = 8090,
 	grafana_prometheus_datasource = file("userdata/grafana_configs/prometheus_datasource.yaml"),
 	grafana_cpu_dashboard = file("userdata/grafana_configs/cpu_dashboard.yaml"),
-	grafana_upscale_notifier = file("userdata/grafana_configs/notification_upscale.yaml"),
-	grafana_downscale_notifier = file("userdata/grafana_configs/notification_downscale.yaml"),
-	grafana_cpu_panels = file("userdata/grafana_configs/cpu_panels.json")
+	grafana_cpu_panels = file("userdata/grafana_configs/cpu_panels.json"),
+	grafana_upscale_notifier = templatefile("userdata/grafana_configs/notification_upscale.yaml", {
+		listen_port = 8090
+  	}),
+	grafana_downscale_notifier = templatefile("userdata/grafana_configs/notification_downscale.yaml", {
+		listen_port = 8090
+  	})
   })
 }

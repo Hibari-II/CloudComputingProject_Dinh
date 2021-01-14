@@ -9,7 +9,7 @@ exoApiKey = environ.get('EXOSCALE_KEY')
 exoApiSecret = environ.get('EXOSCALE_SECRET')
 exoZone = environ.get('EXOSCALE_ZONE')
 exoInstancePoolId = environ.get('EXOSCALE_INSTANCEPOOL_ID')
-#listenPort = environ.get('LISTEN_PORT')
+listenPort = environ.get('LISTEN_PORT')
 
 # Set Signalhandler for SIGTERM & SIGINT
 signalHandler = lambda sNum, sFrame : exit(0)
@@ -34,7 +34,7 @@ def down():
     return response
 
 def scale_instance_pool(num: int):
-    response = None
+    response = ""
     try:
         exo = exoscale.Exoscale(api_key=exoApiKey, api_secret=exoApiSecret)
         exoZoneId = exo.compute.get_zone(exoZone)
@@ -49,4 +49,4 @@ def scale_instance_pool(num: int):
         return response
 
 if __name__ == "__main__":
-      app.run(host='0.0.0.0')
+      app.run(host='0.0.0.0', port=listenPort)

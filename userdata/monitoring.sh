@@ -35,6 +35,29 @@ scrape_configs:
         refresh_interval: 10s
 """ >> /srv/prometheus.yml
 
+mkdir /srv/service-discovery
+# Region Run Service Discovery
+docker run \
+    -d \
+    --name service_discovery \
+    -v /srv/service-discovery:/srv/service-discovery \
+    -e EXOSCALE_KEY=${exoscale_key} \
+    -e EXOSCALE_SECRET=${exoscale_secret} \
+    -e EXOSCALE_ZONE=${exoscale_zone} \
+    -e EXOSCALE_ZONE_ID=${exoscale_zone_id} \
+    -e EXOSCALE_INSTANCEPOOL_ID=${exoscale_instancepool_id} \
+    -e TARGET_PORT=${target_port} \
+    fhhoabinhdinh/py_service_discovery
+
+# Region Run Prometheus
+docker run \
+    -d \
+    --name prometheus \
+    -p 9090:9090 \
+    -v /srv/service-discovery/:/service-discovery/ \
+    -v /srv/prometheus.yml:/etc/prometheus/prometheus.yml \
+    prom/prometheus
+
 # Region Providing Data Source, Notification Channel & Dashboards Config File for Grafana
 mkdir -p etc/grafana/provisioning/{datasources,notifiers,dashboards}
 mkdir -p etc/grafana/dashboards
@@ -59,21 +82,11 @@ echo '''
 ${grafana_cpu_panels}
 ''' >> etc/grafana/dashboards/cpu_panels.json
 
-mkdir /srv/service-discovery
-# Region Run Prometheus
-docker run \
-    -d \
-    --name prometheus \
-    -p 9090:9090 \
-    -v /srv/service-discovery/:/service-discovery/ \
-    -v /srv/prometheus.yml:/etc/prometheus/prometheus.yml \
-    prom/prometheus
-
 # Region Run Autoscaler.py
 docker run \
     -d \
     --name autoscaler \
-    -p ${listen_port}:5000 \
+    -p ${listen_port}:${listen_port} \
     -e EXOSCALE_KEY=${exoscale_key} \
     -e EXOSCALE_SECRET=${exoscale_secret} \
     -e EXOSCALE_ZONE=${exoscale_zone} \
@@ -93,16 +106,3 @@ docker run -d \
     -v /etc/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards \
     -v /etc/grafana/dashboards:/etc/grafana/dashboards \
     grafana/grafana
-
-# Region Run Service Discovery
-docker run \
-    -d \
-    --name service_discovery \
-    -v /srv/service-discovery:/srv/service-discovery \
-    -e EXOSCALE_KEY=${exoscale_key} \
-    -e EXOSCALE_SECRET=${exoscale_secret} \
-    -e EXOSCALE_ZONE=${exoscale_zone} \
-    -e EXOSCALE_ZONE_ID=${exoscale_zone_id} \
-    -e EXOSCALE_INSTANCEPOOL_ID=${exoscale_instancepool_id} \
-    -e TARGET_PORT=${target_port} \
-    fhhoabinhdinh/py_service_discovery

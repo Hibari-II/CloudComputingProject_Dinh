@@ -12,4 +12,4 @@ notifiers:
       httpMethod: 'POST'
       severity: 'critical'
       uploadImage: false
-      url: 'http://autoscaler:5000/down'
+      url: 'http://autoscaler:${listen_port}/down'

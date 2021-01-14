@@ -19,7 +19,8 @@ sleepRate = 10
  Lambda Signal Handler.
  There are only two signals Snake... Do you understand?
 """
-signalHandler = lambda sNum, sFrame : exit(0)
+def signalHandler(sNum, sFrame):
+    raise Exception("The Signal Handler was called with Signal Code: {}!".format(sNum))
 signal.signal(signal.SIGTERM, signalHandler)
 signal.signal(signal.SIGINT, signalHandler)
 
@@ -55,3 +56,4 @@ try:
     # Snake? Snake?! Sneeeeek!
 except Exception as e:
     print(e)
+    print("Terminating the Service Discovery Application.")
